@@ -6,13 +6,18 @@
             <div class="col-lg-4 mx-auto">
                 <h2 class="text-center mb-4">Registro</h2>
                 <div class="auto-form-wrapper">
-                    <form action="#">
+                    <form #userForm="ngForm" (ngSubmit)="userForm_onSubmit(userForm.value)">
+
+                        <!-- Email -->
                         <div class="form-group">
                             <div class="input-group">
                                 <input
+                                    ngModel
+                                    name="email"
                                     type="email"
                                     class="form-control"
                                     placeholder="Correo"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -23,12 +28,40 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- Nombre -->
                         <div class="form-group">
                             <div class="input-group">
                                 <input
+                                    ngModel
+                                    name="nombre"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nombre"
+                                    required
+                                />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i
+                                            class="mdi mdi-check-circle-outline"
+                                        ></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input
+                                    ngModel
+                                    name="password"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -42,6 +75,7 @@
 
                         <div class="form-group">
                             <button
+                                [disabled]="userForm.invalid"
                                 class="btn btn-primary submit-btn btn-block"
                             >
                                 Crear cuenta

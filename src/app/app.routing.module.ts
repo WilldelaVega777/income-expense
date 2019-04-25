@@ -9,6 +9,8 @@ import { RegisterComponent }            from './views/auth/register/register.com
 import { DashboardComponent }           from './views/dashboard/dashboard.component';
 import { dashboardRoutes }              from './views/dashboard/dashboard.routes';
 
+import { AuthGuardService }             from './services/auth.guard';
+
 
 //------------------------------------------------------------------------------------------------------
 // Routes Const Section
@@ -20,8 +22,8 @@ const routes: Routes = [
     {
         path        : '',
         component   : DashboardComponent,
-        children    : dashboardRoutes
-
+        children    : dashboardRoutes,
+        canActivate : [ AuthGuardService ]
     },
     { path: '**', redirectTo: ''}
 

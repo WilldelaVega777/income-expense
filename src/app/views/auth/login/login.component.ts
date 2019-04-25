@@ -1,9 +1,15 @@
+
 //----------------------------------------------------------------------------
 // Imports Section
 //----------------------------------------------------------------------------
 import { Component }                    from '@angular/core';
 import { OnInit }                       from '@angular/core';
 import { OnDestroy }                    from '@angular/core';
+
+import { AuthService }                  from './../../../services/auth.service';
+import { Router }                       from '@angular/router';
+
+import SweetAlert                       from 'sweetalert2';
 
 
 //----------------------------------------------------------------------------
@@ -19,16 +25,6 @@ import { OnDestroy }                    from '@angular/core';
 export class LoginComponent implements OnInit, OnDestroy
 {
     //------------------------------------------------------------------------
-    // @Input Attributes Section
-    //------------------------------------------------------------------------
-
-
-    //------------------------------------------------------------------------
-    // @Output Published Events Section
-    //------------------------------------------------------------------------
-
-
-    //------------------------------------------------------------------------
     // Public Fields Section
     //------------------------------------------------------------------------
 
@@ -36,6 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Private Fields Section
     //------------------------------------------------------------------------
+    private authService                         : AuthService;
+    private routerService                       : Router;
 
 
     //------------------------------------------------------------------------
@@ -46,9 +44,10 @@ export class LoginComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Constructor Method Section
     //------------------------------------------------------------------------
-    constructor()
+    constructor(as: AuthService, rt: Router)
     {
-
+        this.authService    = as;
+        this.routerService  = rt;
     }
 
 
@@ -68,7 +67,17 @@ export class LoginComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Eventhandler Methods Section
     //------------------------------------------------------------------------
-
+    loginForm_submit(loginData: {email: string, password: string})
+    {
+        this.authService.login(loginData.email, loginData.password)
+        .then(() => {
+            this.routerService.navigate(['/']);
+        })
+        .catch((error: any) => {
+            console.error(error);
+            SweetAlert.fire('Error en Login', error.message, 'error');
+        });
+    }
 
     //------------------------------------------------------------------------
     // Public Methods Section
@@ -78,6 +87,5 @@ export class LoginComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Private Methods Section
     //------------------------------------------------------------------------
-
 
 }

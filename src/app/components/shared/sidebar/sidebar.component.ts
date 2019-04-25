@@ -5,6 +5,10 @@ import { Component }                    from '@angular/core';
 import { OnInit }                       from '@angular/core';
 import { OnDestroy }                    from '@angular/core';
 
+import { AuthService }                  from 'src/app/services/auth.service';
+import { Router }                       from '@angular/router';
+import SweetAlert                       from 'sweetalert2';
+
 
 //----------------------------------------------------------------------------
 // Component Configuration Section
@@ -19,16 +23,6 @@ import { OnDestroy }                    from '@angular/core';
 export class SidebarComponent implements OnInit, OnDestroy
 {
     //------------------------------------------------------------------------
-    // @Input Attributes Section
-    //------------------------------------------------------------------------
-
-
-    //------------------------------------------------------------------------
-    // @Output Published Events Section
-    //------------------------------------------------------------------------
-
-
-    //------------------------------------------------------------------------
     // Public Fields Section
     //------------------------------------------------------------------------
 
@@ -36,7 +30,8 @@ export class SidebarComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Private Fields Section
     //------------------------------------------------------------------------
-
+    private authService                             : AuthService;
+    private routerService                           : Router;
 
     //------------------------------------------------------------------------
     // Public Properties Section
@@ -46,9 +41,10 @@ export class SidebarComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Constructor Method Section
     //------------------------------------------------------------------------
-    constructor()
+    constructor(as: AuthService, rt: Router)
     {
-
+        this.authService    = as;
+        this.routerService  = rt;
     }
 
 
@@ -68,6 +64,17 @@ export class SidebarComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Eventhandler Methods Section
     //------------------------------------------------------------------------
+    cmdLogout_click()
+    {
+        this.authService.logout()
+        .then(() => {
+            this.routerService.navigate(['login']);
+        })
+        .catch(error => {
+            console.error(error.message);
+            SweetAlert.fire('Error en el proceso de salida', error.message, 'error');
+        });
+    }
 
 
     //------------------------------------------------------------------------

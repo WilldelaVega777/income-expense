@@ -1,3 +1,4 @@
+
 //------------------------------------------------------------------------------------------------------
 // Imports Section (Angular Libraries)
 //------------------------------------------------------------------------------------------------------
@@ -5,6 +6,15 @@ import { NgModule }                         from '@angular/core';
 import { BrowserModule }                    from '@angular/platform-browser';
 import { RouterModule }                     from '@angular/router';
 import { AppRoutingModule }                 from './app.routing.module';
+import { FormsModule }                      from '@angular/forms';
+
+//------------------------------------------------------------------------------------------------------
+// Imports Section (Firebase)
+//------------------------------------------------------------------------------------------------------
+import { AngularFireModule }                from 'angularfire2';
+import { AngularFirestoreModule }           from 'angularfire2/firestore';
+import { AngularFireAuthModule }            from 'angularfire2/auth';
+import { environment }                      from '../environments/environment';
 
 //------------------------------------------------------------------------------------------------------
 // Imports Section (App Components)
@@ -39,7 +49,11 @@ import { FooterComponent }                  from './components/shared/footer/foo
     imports: [
         BrowserModule,
         RouterModule,
-        AppRoutingModule
+        AppRoutingModule,
+        FormsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAuthModule
     ],
     providers: [],
     bootstrap: [AppComponent]

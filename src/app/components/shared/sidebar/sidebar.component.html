@@ -50,7 +50,7 @@
         </li>
 
         <li routerLink="/login" class="nav-item">
-            <a routerLink="/login" class="nav-link cursor">
+            <a #cmdLogout (click)="cmdLogout_click()" class="nav-link cursor">
                 <i class="menu-icon fa fa-sign-out-alt"></i>
                 <span class="menu-title">
                     Cerrar sesión

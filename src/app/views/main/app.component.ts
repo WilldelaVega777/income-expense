@@ -1,20 +1,72 @@
 //----------------------------------------------------------------------------
 // Imports Section
 //----------------------------------------------------------------------------
-import { Component } from '@angular/core';
+import { Component }                    from '@angular/core';
+import { OnInit }                       from '@angular/core';
+import { AuthService  }                 from 'src/app/services/auth.service';
 
 
 //----------------------------------------------------------------------------
 // Component Configuration Section
 //----------------------------------------------------------------------------
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector    : 'app-root',
+    templateUrl : './app.component.html',
+    styleUrls   : ['./app.component.css']
 })
+
+
 //----------------------------------------------------------------------------
 // Component Class Section
 //----------------------------------------------------------------------------
-export class AppComponent {
-  title = 'ingresoEgresoApp';
+export class AppComponent implements OnInit
+{
+    //------------------------------------------------------------------------
+    // Public Fields Section
+    //------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------
+    // Private Fields Section
+    //------------------------------------------------------------------------
+    private authService                             : AuthService;
+
+
+    //------------------------------------------------------------------------
+    // Constructor Method Section
+    //------------------------------------------------------------------------
+    constructor(as: AuthService)
+    {
+        this.authService = as;
+    }
+
+
+    //------------------------------------------------------------------------
+    // Lifecycle Eventhandler Methods Section
+    //------------------------------------------------------------------------
+    ngOnInit()
+    {
+        this.authService.initAuthListener()
+        .subscribe((user: firebase.User) => {
+
+        },
+        (error: any) => console.error(error.message));
+    }
+
+
+    //------------------------------------------------------------------------
+    // Eventhandler Methods Section
+    //------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------
+    // Public Methods Section
+    //------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------
+    // Private Methods Section
+    //------------------------------------------------------------------------
+
+
 }
