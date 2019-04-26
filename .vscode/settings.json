@@ -1,5 +1,4 @@
 {
-    "as3mxml.sdk.framework": "C:\\Program Files (x86)\\Adobe\\Adobe Flash Builder 4.6\\sdks\\4.6.0",
     "workbench.colorCustomizations": {
         "list.activeSelectionForeground": "#5C6BC0",
         "list.inactiveSelectionForeground": "#5C6BC0",
@@ -18,6 +17,7 @@
         "panelTitle.activeBorder": "#5C6BC0",
         "breadcrumb.activeSelectionForeground": "#5C6BC0",
         "menu.selectionForeground": "#5C6BC0",
-        "menubar.selectionForeground": "#5C6BC0"
+        "menubar.selectionForeground": "#5C6BC0",
+        "editor.background": "#20121e"
     }
 }

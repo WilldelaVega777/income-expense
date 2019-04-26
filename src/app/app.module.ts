@@ -17,6 +17,13 @@ import { AngularFireAuthModule }            from 'angularfire2/auth';
 import { environment }                      from '../environments/environment';
 
 //------------------------------------------------------------------------------------------------------
+// Imports Section (Redux)
+//------------------------------------------------------------------------------------------------------
+import { StoreModule }                      from '@ngrx/store';
+import { StoreDevtoolsModule }              from '@ngrx/store-devtools';
+import { appReducers }                      from './redux/reducers/app.reducer';
+
+//------------------------------------------------------------------------------------------------------
 // Imports Section (App Components)
 //------------------------------------------------------------------------------------------------------
 import { AppComponent }                     from './views/main/app.component';
@@ -29,6 +36,7 @@ import { EstadisticaComponent }             from './views/ingresos-egresos/estad
 import { NavbarComponent }                  from './components/shared/navbar/navbar.component';
 import { SidebarComponent }                 from './components/shared/sidebar/sidebar.component';
 import { FooterComponent }                  from './components/shared/footer/footer.component';
+
 
 //------------------------------------------------------------------------------------------------------
 // Module Configuration Section
@@ -53,7 +61,12 @@ import { FooterComponent }                  from './components/shared/footer/foo
         FormsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        StoreModule.forRoot(appReducers),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+            logOnly: environment.production
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]

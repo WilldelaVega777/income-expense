@@ -5,6 +5,7 @@ import { Injectable }                       from '@angular/core';
 import { AngularFireAuth }                  from 'angularfire2/auth';
 import { AngularFirestore }                 from 'angularfire2/firestore';
 import { Observable }                       from 'rxjs';
+import { Subscription }                     from 'rxjs/';
 import { map }                              from 'rxjs/operators';
 
 import { IUser }                            from 'src/app/models/user.model';
@@ -27,6 +28,8 @@ export class AuthService
     private authService                     : AngularFireAuth;
     private dbService                       : AngularFirestore;
 
+    private
+
     //------------------------------------------------------------------------
     // Constructor Method Section
     //------------------------------------------------------------------------
@@ -43,7 +46,7 @@ export class AuthService
     {
         return new Promise((resolve, reject) => {
 
-            const newUser: IUser = { nombre, email, password };
+            const newUser: { uid?: string, nombre: string, email: string, password: string } = { nombre, email, password };
 
             this.authService.auth.createUserWithEmailAndPassword(email, password)
             .then((credential: firebase.auth.UserCredential) => {
@@ -80,9 +83,28 @@ export class AuthService
         return this.authService.auth.signOut();
     }
     //------------------------------------------------------------------------
-    public initAuthListener(): Observable<firebase.User>
+    public initAuthListener(): Observable<IUser>
     {
-        return (this.authService.authState);
+        let userSubscription$ : Subscription = new Subscription();
+        return Observable.create((observer) => {
+
+            (this.authService.authState).subscribe((user: firebase.User) => {
+                if (user)
+                {
+                    userSubscription$ = this.dbService.doc(`${user.uid}/usuario`)
+                    .valueChanges()
+                    .subscribe((snapshot: IUser) => {
+                        observer.next(snapshot);
+                    },
+                    error => observer.error(error));
+                }
+                else
+                {
+                    userSubscription$.unsubscribe();
+                    observer.error('User does not exist');
+                }
+            });
+        });
     }
     //------------------------------------------------------------------------
     public isAuthenticated(): Observable<boolean>

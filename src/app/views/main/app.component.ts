@@ -1,9 +1,18 @@
 //----------------------------------------------------------------------------
-// Imports Section
+// Imports Section (Angular)
 //----------------------------------------------------------------------------
 import { Component }                    from '@angular/core';
 import { OnInit }                       from '@angular/core';
 import { AuthService  }                 from 'src/app/services/auth.service';
+
+//----------------------------------------------------------------------------
+// Imports Section (Redux / App)
+//----------------------------------------------------------------------------
+import { IUser }                        from 'src/app/models/user.model';
+
+import { Store }                        from '@ngrx/store';
+import * as AuthActions                 from 'src/app/redux/actions/auth.actions';
+import { IAppState }                    from 'src/app/redux/interfaces/app.state';
 
 
 //----------------------------------------------------------------------------
@@ -29,15 +38,17 @@ export class AppComponent implements OnInit
     //------------------------------------------------------------------------
     // Private Fields Section
     //------------------------------------------------------------------------
+    private store                                   : Store<IAppState>;
     private authService                             : AuthService;
 
 
     //------------------------------------------------------------------------
     // Constructor Method Section
     //------------------------------------------------------------------------
-    constructor(as: AuthService)
+    constructor(st: Store<IAppState>, as: AuthService)
     {
-        this.authService = as;
+        this.store          = st;
+        this.authService    = as;
     }
 
 
@@ -47,8 +58,8 @@ export class AppComponent implements OnInit
     ngOnInit()
     {
         this.authService.initAuthListener()
-        .subscribe((user: firebase.User) => {
-
+        .subscribe((user: IUser) => {
+            this.store.dispatch(new AuthActions.SetUserAction(user));
         },
         (error: any) => console.error(error.message));
     }

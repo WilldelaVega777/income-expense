@@ -46,14 +46,18 @@ export class AuthGuardService implements CanActivate
             ((userLoggedIn: boolean) => {
                 if (!userLoggedIn)
                 {
+                    subscription.unsubscribe();
                     this.routerService.navigate(['login']);
                 }
 
             }),
-            ((error: any) => console.error(error))
+            ((error: any) => {
+                subscription.unsubscribe();
+                console.error(error);
+            })
         );
 
-        subscription.unsubscribe();
+
 
         return retVal;
     }
