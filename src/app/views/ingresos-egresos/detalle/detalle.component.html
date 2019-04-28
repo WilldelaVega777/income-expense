@@ -15,11 +15,26 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Descripción</td>
-                            <td>Monto</td>
-                            <td>Tipo</td>
-                            <td>acciones</td>
+                        <tr *ngFor="let incomeOutcomeItem of this.incomeOutcomeItems | ordenIngresoEgreso">
+                            <td class="valign-mid">{{ incomeOutcomeItem.description }}</td>
+                            <td class="valign-mid">{{ incomeOutcomeItem.amount | currency }}</td>
+                            <td class="valign-mid">
+                                <span [ngClass]="{
+                                        'text-success': incomeOutcomeItem.type == 'ingreso',
+                                        'text-danger' : incomeOutcomeItem.type == 'egreso'
+                                }">
+                                    {{ incomeOutcomeItem.type | uppercase }}
+                                </span>
+
+                            </td>
+                            <td class="valign-mid">
+                                <button #cmdEliminar
+                                    (click)="cmdEliminar_click(incomeOutcomeItem)"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i>
+                                    Eliminar
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

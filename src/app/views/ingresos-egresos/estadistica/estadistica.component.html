@@ -12,7 +12,7 @@
                         <p class="mb-0 text-right">Ingresos</p>
                         <div class="fluid-container">
                             <h3 class="font-weight-medium text-right mb-0">
-                                $65,650
+                                {{ this.income | currency }}
                             </h3>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                         class="mdi mdi-alert-octagon mr-1"
                         aria-hidden="true"
                     ></i>
-                    65% lower growth
+                    {{ incomeCount }} {{ (incomeCount != 1) ? 'Ingresos' : 'Ingreso' }}
                 </p>
             </div>
         </div>
@@ -36,10 +36,10 @@
                         <i class="fa fa-shipping-fast text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
-                        <p class="mb-0 text-right">Ingresos</p>
+                        <p class="mb-0 text-right">Egresos</p>
                         <div class="fluid-container">
                             <h3 class="font-weight-medium text-right mb-0">
-                                $65,650
+                                {{ this.outcome | currency }}
                             </h3>
                         </div>
                     </div>
@@ -49,9 +49,62 @@
                         class="mdi mdi-alert-octagon mr-1"
                         aria-hidden="true"
                     ></i>
-                    65% lower growth
+                    {{ outcomeCount }} {{ (outcomeCount !== 1) ? 'Egresos' : 'Egreso' }}
                 </p>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Balance -->
+<div class="row m-5">
+
+    <div class="col-12">
+        <div class="card card-statistics">
+            <div class="card-body">
+
+                <div class="clearfix">
+                    <div class="float-left">
+                    <i class="fa fa-building text-info icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                    <p class="mb-0 text-right">Diferencia</p>
+                    <div class="fluid-container">
+                        <h3 [ngClass]="{
+                        'text-success': this.income - this.outcome > 0,
+                        'text-danger': this.income - this.outcome < 0
+                        }"
+                            class="font-weight-medium text-right mb-0">
+                        {{ this.income - this.outcome | currency }}
+                        </h3>
+                    </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 p-5" *ngIf="this.income > 0 || this.outcome > 0">
+        <div class="card card-statistics">
+            <div class="card-body">
+            <h1 class="card-title">Gráfica</h1>
+
+            <div>
+                <div>
+                    <div style="display: block">
+                    <canvas baseChart
+                        [data]="this.doughnutChartData"
+                        [labels]="this.doughnutChartLabels"
+                        chartType="doughnut">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>

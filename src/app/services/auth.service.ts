@@ -5,17 +5,20 @@ import { Injectable }                       from '@angular/core';
 import { AngularFireAuth }                  from 'angularfire2/auth';
 import { AngularFirestore }                 from 'angularfire2/firestore';
 import { Observable }                       from 'rxjs';
+import { Observer }                         from 'rxjs';
 import { Subscription }                     from 'rxjs/';
 import { map }                              from 'rxjs/operators';
+import { filter }                           from 'rxjs/operators';
 
 import { IUser }                            from 'src/app/models/user.model';
+import { User } from 'firebase';
 
 
 //----------------------------------------------------------------------------
 // Service Configuration Section
 //----------------------------------------------------------------------------
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 //----------------------------------------------------------------------------
 // Service Class Section
@@ -28,7 +31,7 @@ export class AuthService
     private authService                     : AngularFireAuth;
     private dbService                       : AngularFirestore;
 
-    private
+    private user                            : IUser;
 
     //------------------------------------------------------------------------
     // Constructor Method Section
@@ -52,6 +55,7 @@ export class AuthService
             .then((credential: firebase.auth.UserCredential) => {
 
                 newUser.uid = credential.user.uid;
+                delete newUser.password;
 
                 this.dbService.doc(`${credential.user.uid}/usuario`).set(newUser)
                 .then(() => {
@@ -80,26 +84,33 @@ export class AuthService
     //------------------------------------------------------------------------
     public logout(): Promise<void>
     {
+        this.user = null;
         return this.authService.auth.signOut();
     }
     //------------------------------------------------------------------------
     public initAuthListener(): Observable<IUser>
     {
         let userSubscription$ : Subscription = new Subscription();
-        return Observable.create((observer) => {
+        return Observable.create((observer: Observer<any>) => {
 
-            (this.authService.authState).subscribe((user: firebase.User) => {
+            this.authService.authState
+            .pipe(
+                filter((user: firebase.User) => user != null)
+            )
+            .subscribe((user: firebase.User) => {
                 if (user)
                 {
                     userSubscription$ = this.dbService.doc(`${user.uid}/usuario`)
                     .valueChanges()
                     .subscribe((snapshot: IUser) => {
-                        observer.next(snapshot);
+                        this.user = (<IUser>{ ...snapshot });
+                        observer.next({...snapshot});
                     },
                     error => observer.error(error));
                 }
                 else
                 {
+                    this.user = null;
                     userSubscription$.unsubscribe();
                     observer.error('User does not exist');
                 }
@@ -112,6 +123,11 @@ export class AuthService
         return this.authService.authState.pipe(
             map(firebaseUser => firebaseUser != null)
         );
+    }
+    //------------------------------------------------------------------------
+    public getCurrentUser() : IUser
+    {
+        return { ...this.user };
     }
 
 }

@@ -3,3 +3,8 @@
 {
     cursor: pointer;
 }
+
+.valign-mid
+{
+    vertical-align: middle !important;
+}

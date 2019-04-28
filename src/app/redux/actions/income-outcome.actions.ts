@@ -1,15 +1,16 @@
 //----------------------------------------------------------------------
 // Imports Section
 //----------------------------------------------------------------------
-import { Action }                       from '@ngrx/store';
-import { IUser }                        from 'src/app/models/user.model';
+import { Action }            from '@ngrx/store';
+import { IncomeOutcome }     from 'src/app/models/income-outcome.model';
+
 
 //----------------------------------------------------------------------
 // Action Constants Section
 //----------------------------------------------------------------------
 export const INIT        = '@ngrx/store/init';
-export const USER_SET    = '[Auth] Set User';
-export const USER_UNSET  = '[Auth] Unset User';
+export const ITEMS_SET   = '[Income Outcome] Set Items';
+export const ITEMS_UNSET = '[Income Outcome] Unset Items';
 
 
 //----------------------------------------------------------------------
@@ -17,34 +18,32 @@ export const USER_UNSET  = '[Auth] Unset User';
 //----------------------------------------------------------------------
 export class InitAction implements Action
 {
-      readonly type = INIT;
+    // Action Interface Implementation
+    readonly type = INIT;
 }
 //----------------------------------------------------------------------
-export class SetUserAction implements Action
+export class SetItemsAction implements Action
 {
-    readonly type = USER_SET;
+    // Action Interface Implementation:
+    readonly type = ITEMS_SET;
 
-    public user: IUser;
+    // Public Fields Section:
+    public items: IncomeOutcome[];
 
-    constructor(pUser: IUser)
+    // Constructor Method Section:
+    constructor(pItems: IncomeOutcome[])
     {
-        this.user = pUser;
+        this.items = pItems;
     }
 }
 //----------------------------------------------------------------------
-export class UnsetUserAction implements Action
+export class UnsetItemsAction implements Action
 {
-    readonly type = USER_UNSET;
-
-    public user: IUser;
-
-    constructor(pUser: IUser)
-    {
-        this.user = pUser;
-    }
+    // Action Interface Implementation:
+    readonly type = ITEMS_UNSET;
 }
 //----------------------------------------------------------------------
 // Valid Types (Union) Section
 //----------------------------------------------------------------------
 export type AvailableActions =
-    InitAction | SetUserAction | UnsetUserAction;
+    InitAction | SetItemsAction | UnsetItemsAction;

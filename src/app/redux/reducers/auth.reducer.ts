@@ -29,6 +29,11 @@ export function authReducer(
                       }
                   };
 
+            case StateActions.USER_UNSET:
+                  return {
+                      user : null
+                  };
+
             default:
                   return state;
                   break;

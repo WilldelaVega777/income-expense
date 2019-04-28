@@ -4,10 +4,20 @@
 import { Component }                    from '@angular/core';
 import { OnInit }                       from '@angular/core';
 import { OnDestroy }                    from '@angular/core';
+import { Input }                        from '@angular/core';
 
 import { AuthService }                  from 'src/app/services/auth.service';
 import { Router }                       from '@angular/router';
 import SweetAlert                       from 'sweetalert2';
+
+//----------------------------------------------------------------------------
+// Imports Section (Redux / App)
+//----------------------------------------------------------------------------
+import { Store }                        from '@ngrx/store';
+import { IAppState }                    from 'src/app/redux/interfaces/app.state';
+import * as AuthActions                 from 'src/app/redux/actions/auth.actions';
+import * as IOActions                   from 'src/app/redux/actions/income-outcome.actions';
+import { IUser }                        from './../../../models/user.model';
 
 
 //----------------------------------------------------------------------------
@@ -23,26 +33,25 @@ import SweetAlert                       from 'sweetalert2';
 export class SidebarComponent implements OnInit, OnDestroy
 {
     //------------------------------------------------------------------------
-    // Public Fields Section
+    // Input Fields Section
     //------------------------------------------------------------------------
+    @Input() user                                   : IUser;
 
 
     //------------------------------------------------------------------------
     // Private Fields Section
     //------------------------------------------------------------------------
+    private store                                   : Store<IAppState>;
     private authService                             : AuthService;
     private routerService                           : Router;
-
-    //------------------------------------------------------------------------
-    // Public Properties Section
-    //------------------------------------------------------------------------
 
 
     //------------------------------------------------------------------------
     // Constructor Method Section
     //------------------------------------------------------------------------
-    constructor(as: AuthService, rt: Router)
+    constructor(st: Store<IAppState>, as: AuthService, rt: Router)
     {
+        this.store = st;
         this.authService    = as;
         this.routerService  = rt;
     }
@@ -68,6 +77,8 @@ export class SidebarComponent implements OnInit, OnDestroy
     {
         this.authService.logout()
         .then(() => {
+            this.store.dispatch(new IOActions.UnsetItemsAction());
+            this.store.dispatch(new AuthActions.UnsetUserAction(this.user));
             this.routerService.navigate(['login']);
         })
         .catch(error => {

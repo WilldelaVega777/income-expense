@@ -7,6 +7,7 @@ import { BrowserModule }                    from '@angular/platform-browser';
 import { RouterModule }                     from '@angular/router';
 import { AppRoutingModule }                 from './app.routing.module';
 import { FormsModule }                      from '@angular/forms';
+import { ReactiveFormsModule }              from '@angular/forms';
 
 //------------------------------------------------------------------------------------------------------
 // Imports Section (Firebase)
@@ -24,6 +25,11 @@ import { StoreDevtoolsModule }              from '@ngrx/store-devtools';
 import { appReducers }                      from './redux/reducers/app.reducer';
 
 //------------------------------------------------------------------------------------------------------
+// Imports Section (Charts)
+//------------------------------------------------------------------------------------------------------
+import { ChartsModule }                     from 'ng2-charts';
+
+//------------------------------------------------------------------------------------------------------
 // Imports Section (App Components)
 //------------------------------------------------------------------------------------------------------
 import { AppComponent }                     from './views/main/app.component';
@@ -36,6 +42,12 @@ import { EstadisticaComponent }             from './views/ingresos-egresos/estad
 import { NavbarComponent }                  from './components/shared/navbar/navbar.component';
 import { SidebarComponent }                 from './components/shared/sidebar/sidebar.component';
 import { FooterComponent }                  from './components/shared/footer/footer.component';
+
+//------------------------------------------------------------------------------------------------------
+// Imports Section (App Pipes)
+//------------------------------------------------------------------------------------------------------
+import { OrdenIngresoEgresoPipe }           from './pipes/orden-ingreso-egreso.pipe';
+
 
 
 //------------------------------------------------------------------------------------------------------
@@ -52,16 +64,20 @@ import { FooterComponent }                  from './components/shared/footer/foo
         EstadisticaComponent,
         NavbarComponent,
         SidebarComponent,
-        FooterComponent
+        FooterComponent,
+
+        OrdenIngresoEgresoPipe
     ],
     imports: [
         BrowserModule,
         RouterModule,
         AppRoutingModule,
         FormsModule,
+        ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         AngularFireAuthModule,
+        ChartsModule,
         StoreModule.forRoot(appReducers),
         StoreDevtoolsModule.instrument({
             maxAge: 25,

@@ -5,13 +5,13 @@
                 <div class="user-wrapper">
                     <div class="profile-image">
                         <img
-                            src="assets/images/faces/face1.jpg"
+                            [src]="'assets/images/faces/' + this.user.picture"
                             alt="profile image"
                         />
                     </div>
 
                     <div class="text-wrapper">
-                        <p class="profile-name">Will de la Vega</p>
+                        <p class="profile-name">{{ this.user.nombre }}</p>
                         <div>
                             <small class="designation text-muted"
                                 >Gerente</small

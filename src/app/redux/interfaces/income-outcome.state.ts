@@ -1,17 +1,13 @@
-
 //--------------------------------------------------------------------------
 // Imports Section
 //--------------------------------------------------------------------------
-import { IUIState }             from './ui.state';
-import { IAuthState }           from './auth.state';
-import { IIncomeOutcomeState }  from './income-outcome.state';
+import { IncomeOutcome }        from 'src/app/models/income-outcome.model';
+
 
 //--------------------------------------------------------------------------
 // Interface Definition Section
 //--------------------------------------------------------------------------
-export interface IAppState
+export interface IIncomeOutcomeState
 {
-    ui              : IUIState;
-    auth            : IAuthState;
-    incomeOutcome   : IIncomeOutcomeState;
+    items: IncomeOutcome[];
 }
