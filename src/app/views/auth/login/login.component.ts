@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy
         this.authService.login(loginData.email, loginData.password)
         .then(() => {
             this.store.dispatch(new UIActions.DeactivateLoadingAction());
-            this.routerService.navigate(['/']);
+            this.routerService.navigate(['']);
         })
         .catch((error: any) => {
             this.store.dispatch(new UIActions.DeactivateLoadingAction());

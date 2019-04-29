@@ -9,8 +9,7 @@ import { OnDestroy }                    from '@angular/core';
 // Imports Section (Redux/RxJs/App)
 //----------------------------------------------------------------------------
 import { Store }                        from '@ngrx/store';
-import * as UIActions                   from 'src/app/redux/actions/ui.actions';
-import { IAppState }                    from 'src/app/redux/interfaces/app.state';
+import { IAppState }                    from 'src/app/redux/interfaces/income-outcome.state';
 import { Subscription }                 from 'rxjs';
 import { IncomeOutcome }                from '../../../models/income-outcome.model';
 import { IncomeOutcomeService }         from 'src/app/services/income-outcome.service';

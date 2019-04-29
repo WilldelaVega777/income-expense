@@ -10,11 +10,13 @@ import { OnDestroy }                    from '@angular/core';
 //----------------------------------------------------------------------------
 import { Store }                        from '@ngrx/store';
 import * as UIActions                   from 'src/app/redux/actions/ui.actions';
-import { IAppState }                    from 'src/app/redux/interfaces/app.state';
+import { IAppState }                    from 'src/app/redux/interfaces/income-outcome.state';
 import { Subscription }                 from 'rxjs';
 import { IncomeOutcome }                from '../../../models/income-outcome.model';
 import { IncomeOutcomeService }         from 'src/app/services/income-outcome.service';
 import { map }                          from 'rxjs/operators';
+import { filter }                       from 'rxjs/operators';
+import { delay }                        from 'rxjs/operators';
 
 //----------------------------------------------------------------------------
 // Imports Section (Charts)
@@ -76,8 +78,10 @@ export class EstadisticaComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     ngOnInit()
     {
+        // Should filter when store node is coming from lazy loading...
         this.incomeOutcome$ = this.store
         .pipe(
+            filter(state => state.incomeOutcome != null),
             map(state => state.incomeOutcome.items)
         )
         .subscribe((items: IncomeOutcome[]) => {

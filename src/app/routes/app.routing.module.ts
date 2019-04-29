@@ -4,12 +4,13 @@
 import { RouterModule }                 from '@angular/router';
 import { NgModule }                     from '@angular/core';
 import { Routes }                       from '@angular/router';
-import { LoginComponent }               from './views/auth/login/login.component';
-import { RegisterComponent }            from './views/auth/register/register.component';
-import { DashboardComponent }           from './views/dashboard/dashboard.component';
-import { dashboardRoutes }              from './views/dashboard/dashboard.routes';
+import { LoginComponent }               from '../views/auth/login/login.component';
+import { RegisterComponent }            from '../views/auth/register/register.component';
 
-import { AuthGuardService }             from './services/auth.guard';
+//------------------------------------------------------------------------------------------------------
+// Imports Section (App Guards)
+//------------------------------------------------------------------------------------------------------
+import { AuthGuardService }             from '../services/auth.guard';
 
 
 //------------------------------------------------------------------------------------------------------
@@ -20,12 +21,10 @@ const routes: Routes = [
     { path: 'login',    component: LoginComponent    },
     { path: 'register', component: RegisterComponent },
     {
-        path        : '',
-        component   : DashboardComponent,
-        children    : dashboardRoutes,
-        canActivate : [ AuthGuardService ]
-    },
-    { path: '**', redirectTo: ''}
+        path: '',
+        loadChildren: '../modules/income-outcome.module#IncomeOutcomeModule',
+        canLoad: [ AuthGuardService ]
+    }
 
 ];
 

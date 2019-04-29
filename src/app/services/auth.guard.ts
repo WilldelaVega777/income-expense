@@ -3,10 +3,12 @@
 //----------------------------------------------------------------------------
 import { Injectable }                   from '@angular/core';
 import { CanActivate }                  from '@angular/router';
+import { CanLoad }                      from '@angular/router';
 import { Router }                       from '@angular/router';
 import { AuthService }                  from 'src/app/services/auth.service';
 import { Observable }                   from 'rxjs';
-import { from }                         from 'rxjs';
+import { Subscription }                 from 'rxjs';
+import { take }                         from 'rxjs/operators';
 
 //----------------------------------------------------------------------------
 // Service Configuration Section
@@ -17,7 +19,7 @@ import { from }                         from 'rxjs';
 //----------------------------------------------------------------------------
 // Service Class Section
 //----------------------------------------------------------------------------
-export class AuthGuardService implements CanActivate
+export class AuthGuardService implements CanActivate, CanLoad
 {
     //------------------------------------------------------------------------
     // Private Properties Section
@@ -57,8 +59,32 @@ export class AuthGuardService implements CanActivate
             })
         );
 
-
-
         return retVal;
+    }
+
+    //------------------------------------------------------------------------
+    canLoad() : Promise<boolean>
+    {
+        return new Promise((resolve, reject) => {
+
+            const retVal = this.authService.isAuthenticated();
+            const subscription: Subscription = retVal
+            .pipe(take(1))
+            .subscribe(
+                ((userLoggedIn: boolean) => {
+                    if (!userLoggedIn)
+                    {
+                        subscription.unsubscribe();
+                        this.routerService.navigate(['login']);
+                    }
+                    resolve(userLoggedIn);
+                }),
+                ((error: any) => {
+                    subscription.unsubscribe();
+                    reject(error);
+                })
+            );
+
+        });
     }
 }

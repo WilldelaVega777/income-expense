@@ -6,9 +6,9 @@ import { Routes } from '@angular/router';
 //--------------------------------------------------------------------------------------------------
 // Imports Section (App/Module Components)
 //--------------------------------------------------------------------------------------------------
-import { EstadisticaComponent }     from './../ingresos-egresos/estadistica/estadistica.component';
-import { IngresoEgresoComponent }   from '../ingresos-egresos/ingreso-egreso/ingreso-egreso.component';
-import { DetalleComponent }         from '../ingresos-egresos/detalle/detalle.component';
+import { EstadisticaComponent }     from '../views/ingresos-egresos/estadistica/estadistica.component';
+import { IngresoEgresoComponent }   from '../views/ingresos-egresos/ingreso-egreso/ingreso-egreso.component';
+import { DetalleComponent }         from '../views/ingresos-egresos/detalle/detalle.component';
 
 
 //--------------------------------------------------------------------------------------------------
