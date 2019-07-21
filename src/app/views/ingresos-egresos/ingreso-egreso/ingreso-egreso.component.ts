@@ -93,7 +93,7 @@ export class IngresoEgresoComponent implements OnInit, OnDestroy
     //------------------------------------------------------------------------
     // Eventhandler Methods Section
     //------------------------------------------------------------------------
-    frmIngresoEgreso_submit(formValues: {description: string, amount: number})
+    frmIncomeOutcome_submit(formValues: {description: string, amount: number})
     {
         this.store.dispatch(new UIActions.ActivateLoadingAction());
 

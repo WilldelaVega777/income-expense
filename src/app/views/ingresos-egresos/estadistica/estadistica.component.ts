@@ -12,11 +12,8 @@ import { Store }                        from '@ngrx/store';
 import * as UIActions                   from 'src/app/redux/actions/ui.actions';
 import { IAppState }                    from 'src/app/redux/interfaces/income-outcome.state';
 import { Subscription }                 from 'rxjs';
-import { IncomeOutcome }                from '../../../models/income-outcome.model';
-import { IncomeOutcomeService }         from 'src/app/services/income-outcome.service';
 import { map }                          from 'rxjs/operators';
 import { filter }                       from 'rxjs/operators';
-import { delay }                        from 'rxjs/operators';
 
 //----------------------------------------------------------------------------
 // Imports Section (Charts)
@@ -25,6 +22,11 @@ import { ChartType }                    from 'chart.js';
 import { MultiDataSet }                 from 'ng2-charts';
 import { Label }                        from 'ng2-charts';
 
+//----------------------------------------------------------------------------
+// Imports Section (App Models & Services)
+//----------------------------------------------------------------------------
+import { IncomeOutcome }                from '../../../models/income-outcome.model';
+import { IncomeOutcomeService }         from 'src/app/services/income-outcome.service';
 
 //----------------------------------------------------------------------------
 // Component Configuration Section
